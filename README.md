@@ -129,7 +129,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: <your-dockerhub-username>/flask-cicd:latest
+          tags: <your-dockerhub-username>/practice:latest
 ```
 
 ## Environment Variables

@@ -1,29 +1,34 @@
-# Flask CI/CD Project
+# 📦 Flask CI/CD Project
 
-This project demonstrates setting up a Flask application with GitHub Actions for a CI/CD pipeline. It automates the process of building, testing, and pushing a Docker image to Docker Hub.
+This project demonstrates setting up a Flask application with a complete CI/CD pipeline using GitHub Actions. It automates the process of building, containerizing, and deploying the application from GitHub to a live EC2 instance.
 
-## Features
+---
 
-- **Flask Web Application**: A simple Python-based web application using Flask.
-- **GitHub Actions for CI/CD**: Automates building, testing, and deployment.
-- **Docker Integration**: The application is containerized using Docker.
-- **Automated Testing**: Ensures the application is tested before deployment.
-- **Continuous Deployment**: Pushes the Docker image to Docker Hub for easy deployment.
+## 🚀 Features
 
-## Prerequisites
+- **Flask Web Application**: A simple Python-based web application.
+- **GitHub Actions for CI/CD**: Automates testing and deployment.
+- **Docker Integration**: The app is containerized for consistency across environments.
+- **Continuous Integration**: Pushes Docker images to Docker Hub.
+- **Continuous Deployment**: Automatically deploys the Docker image to an EC2 server via SSH.
 
-Ensure you have the following installed on your system:
+---
 
-- **Python 3.x**: Required to run the Flask application.
-- **pip**: Python package manager to install dependencies.
-- **Virtualenv** (optional but recommended): To create an isolated Python environment.
-- **Docker**: Required to build and push Docker images.
-- **GitHub Repository**: A remote repository to host the code and GitHub Actions workflow.
-- **Docker Hub Account**: To store and manage the containerized application.
+## ⚙️ Prerequisites
 
-## Setup Instructions
+- **Python 3.x**  
+- **pip**  
+- **Docker**  
+- **GitHub Repository**  
+- **Docker Hub Account**  
+- **AWS EC2 Instance** with Docker installed  
+- **SSH Access** to the EC2 instance
 
-Follow these steps to set up the project:
+---
+
+## 🔧 Setup Instructions
+
+### Local Development
 
 1. **Clone the repository:**
     ```bash
@@ -31,11 +36,11 @@ Follow these steps to set up the project:
     cd flask-cicd
     ```
 
-2. **Set up a virtual environment (optional but recommended):**
+2. **(Optional) Set up virtual environment:**
     ```bash
     python3 -m venv venv
-    source venv/bin/activate  # On macOS/Linux
-    venv\Scripts\activate  # On Windows
+    source venv/bin/activate  # macOS/Linux
+    venv\Scripts\activate     # Windows
     ```
 
 3. **Install dependencies:**
@@ -43,108 +48,23 @@ Follow these steps to set up the project:
     pip install -r requirements.txt
     ```
 
-4. **Run the application:**
+4. **Run the application locally:**
     ```bash
     flask run
     ```
-    The application will be available at `http://127.0.0.1:5000`.
+    The app runs at `http://127.0.0.1:5000`.
 
-## Docker Setup
+---
 
-To containerize the application, follow these steps:
+## 🐳 Docker Setup
 
-1. **Build the Docker image:**
-    ```bash
-    docker build -t <your-dockerhub-username>/flask-cicd .
-    ```
+```bash
+# Build the image
+docker build -t <your-dockerhub-username>/flask-cicd .
 
-2. **Run the container:**
-    ```bash
-    docker run -p 5000:5000 <your-dockerhub-username>/flask-cicd
-    ```
+# Run the container
+docker run -p 5000:5000 <your-dockerhub-username>/flask-cicd
 
-3. **Push the image to Docker Hub:**
-    ```bash
-    docker login
-    docker push <your-dockerhub-username>/flask-cicd
-    ```
-
-## CI/CD Pipeline with GitHub Actions
-
-This project includes a GitHub Actions workflow (`.github/workflows/flas-app.yml`) that automates the following:
-
-1. **Code Checkout**: Clones the repository.
-2. **Set Up Python Environment**: Installs Python and dependencies.
-3. **Run Unit Tests**: Executes automated tests to ensure application stability.
-4. **Build Docker Image**: Creates a Docker image of the application.
-5. **Push to Docker Hub**: Publishes the built image to Docker Hub.
-
-### GitHub Actions Workflow Example
-
-Here is a sample GitHub Actions workflow configuration:
-
-```yaml
-name: Flask CI/CD
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      
-      - name: Set Up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run Tests
-        run: |
-          python -m unittest discover tests
-
-      - name: Set Up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: <your-dockerhub-username>/practice:latest
-```
-
-## Environment Variables
-
-Ensure the following environment variables are set up in GitHub Secrets:
-
-- `DOCKER_USERNAME`: Your Docker Hub username.
-- `DOCKER_PASSWORD`: Your Docker Hub password.
-
-## Future Improvements
-
-- **Deployment to Kubernetes**: Automate deployment to a Kubernetes cluster.
-- **CI/CD for Multiple Environments**: Implement staging and production pipelines.
-- **Enhanced Testing**: Add integration and end-to-end tests.
-
-
-By following this guide, you can successfully set up a Flask-based CI/CD pipeline using GitHub Actions and Docker. 🚀
-
+# Push to Docker Hub
+docker login
+docker push <your-dockerhub-username>/flask-cicd
